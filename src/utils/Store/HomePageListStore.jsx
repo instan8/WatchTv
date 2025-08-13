@@ -1,0 +1,14 @@
+import { configureStore } from "@reduxjs/toolkit";
+import fetchHomList from '../slices/Slice'
+import fetchChannelImage from '../slices/chanelImageSlic'
+import  fetchRelatedVideoReducer from "../slices/relatedVideoSlice";
+import searchItems from '../slices/serchItems'
+
+export const store=configureStore({
+    reducer:{
+        "fetchHomeList":fetchHomList,
+        "fetchChannelImage":fetchChannelImage,
+        "fetchRelatedVideo":fetchRelatedVideoReducer,
+       "searchItems":searchItems
+    }
+})
