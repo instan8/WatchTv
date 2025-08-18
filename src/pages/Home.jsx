@@ -96,7 +96,7 @@ export default function Home() {
         return;
       }
       
-      const threshold = 50;
+      const threshold = 200;
       const scrollPosition = window.innerHeight + window.scrollY;
       const documentHeight = document.body.offsetHeight;
       

@@ -5,18 +5,20 @@ import { diffTime } from '../videoPostingTime';
 import { formatCompactNumber } from '../utils/viewsCount';
 function VideoCard({ val,  channelImage }) {
   console.log(val, "val in videocard");
+  console.log(channelImage,"channelimage  in card")
 
   return (
     <Link to={`/watch?id=${val.id}&cat=${val.snippet.categoryId ? val.snippet.categoryId : val.catId}`}>
-      <div className='h-74 sm:h-60  w-full mb-4 flex flex-col rounded-md text-white
+      <div className='h-70 sm:h-auto  w-full mb-4 flex flex-col rounded-md text-white
       '>
         <img
           src={`https://img.youtube.com/vi/${val.id}/maxresdefault.jpg`}
           alt={val.snippet.title}
           className='w-full object-cover overflow-hidden h-40 grow-2 rounded-md mb-2'
-          loading="lazy" // Add lazy loading
+          loading="lazy"
+           referrerpolicy="no-referrer" // Add lazy loading
         />
-        <section className='flex  sm:gap-1'>
+        <section className='flex gap-1'>
 
           <img
           referrerpolicy="no-referrer"

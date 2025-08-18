@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+const key = import.meta.env.VITE_API_KEY;
 export const fetchRelatedVideo = createAsyncThunk(
   "fetchRelatedVideo",
   async (catId) => {
@@ -7,7 +7,7 @@ export const fetchRelatedVideo = createAsyncThunk(
 
     // First fetch videos by category
     const relatedVideoRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&videoCategoryId=${catId}&maxResults=5&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&videoCategoryId=${catId}&maxResults=8&key=${key}`
     );
     const relVideoData = await relatedVideoRes.json();
 
@@ -20,7 +20,7 @@ export const fetchRelatedVideo = createAsyncThunk(
 
     // Fetch stats for those videos
     const videoStatsRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoIds}&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoIds}&key=${key}`
     );
     const statsData = await videoStatsRes.json();
 

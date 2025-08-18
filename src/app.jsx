@@ -13,7 +13,7 @@ const SearchPage = lazy(() => import('./pages/searchPage'));
 function App() {
   return (
     <Provider store={store}>
-      <div className="text-3xl text-red-500">
+      <div className="text-3xl text-red-500  bg-black">
         <Header />
         
           

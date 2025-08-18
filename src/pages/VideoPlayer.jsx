@@ -1,5 +1,5 @@
 // pages/VideoPage.jsx
-import React, { use, useEffect, useMemo ,useState} from 'react';
+import React, { use, useEffect, useMemo ,useRef,useState} from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import YouTubePlayer from '../components/YouTubePlayer';
 import { fetchRelatedVideo, deleteVideo } from '../utils/slices/relatedVideoSlice';
@@ -8,27 +8,35 @@ import { fetchChannelImage } from '../utils/slices/chanelImageSlic'
 import VideoCard from '../components/videoCard'
 import CommentSection from '../components/CommentSection';
 import Profile from '../components/profile';
+const key = import.meta.env.VITE_API_KEY;
 const VideoPage = () => {
   const dispatch = useDispatch();
   const {data,isLoading} =useSelector((store) => {
-    console.log(store.fetchRelatedVideo,"sot")
+   
     return store.fetchRelatedVideo});
+    console.log(data,"data in videoplayer")
   const relatedVidoesLoading=isLoading
-  
+  const channelImages = useSelector(store=>{
+    return store.fetchChannelImage.data
+  })
+  console.log(channelImages,"channelImages in videoplayer")
   const [comments, setComments] = useState([]);
+  const [videoIds,setVideoIds]=useState([]);
   const [nextPageToken, setNextPageToken] = useState(null);
   const [specificVideo, setSpecificVideo] = useState({});
   const [commentLoading, setCommentLoading] = useState(false);
   const [specificDataLoading, setSpecificDataLoading] = useState(false);
+
     const { search } = useLocation();
   const query = new URLSearchParams(search);
   const catId = query.get("cat");
   console.log(catId,"catId")
+
   const videoId = query.get('id');
 
   const fetchSpecificVideo = async(videoId)=>{
   console.log("videoId", videoId)
-  const specificVideo=  await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`);
+  const specificVideo=  await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${key}`);
   const specificVideoData = await specificVideo.json();
 setSpecificDataLoading(false);
   console.log("specificv",specificVideoData)
@@ -36,7 +44,7 @@ setSpecificDataLoading(false);
 }
 
    async function fetchComments(videoId) {
-    let url =`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=10&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`;
+    let url =`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=30&key=${key}`;
     if(nextPageToken){
       url+=`&pageToken=${nextPageToken}`
     }
@@ -72,7 +80,14 @@ const loadCommentData = async () => {
   
  
 
+useEffect(()=>{
+  if(data.length>0){
+     const channelIds = data.map(video => video.snippet.channelId);
+     console.log(channelIds,"channelids")
+    dispatch(fetchChannelImage(channelIds))
+  }
 
+},[data,videoId,catId])
   //
 // 'id' should be a YouTube video ID
 useEffect(() => {
@@ -86,7 +101,7 @@ useEffect(() => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      if (scrollTop + windowHeight >= documentHeight - 100 && !commentLoading) {
+      if (scrollTop + windowHeight >= documentHeight - 300 && !commentLoading) {
         if(!commentLoading){
           setCommentLoading(true);
           console.log("Loading more comments...");
@@ -107,6 +122,13 @@ useEffect(() => {
   return () => window.removeEventListener("scroll", handleScroll);
 }, [commentLoading, videoId]);
   useEffect(() => {
+    setComments([]);
+  setNextPageToken(null);
+  setCommentLoading(false);
+
+  // reset video details
+  setSpecificVideo({});
+  setSpecificDataLoading(true);
     
       loadSpecificData();
       loadCommentData();
@@ -114,7 +136,8 @@ useEffect(() => {
     console.log("useeffect 2")
  
 
-  }, []);
+  }, [videoId,catId]);
+
 
 
   return (
@@ -129,7 +152,7 @@ useEffect(() => {
     <section className="block sm:hidden mb-4">
       {data.length > 0
         ? data.map((video) => (
-            <VideoCard key={video.id} val={video} />
+            <VideoCard key={video.id} val={video}  channelImage={channelImages ? channelImages[video.snippet.channelId]:""}/>
           ))
         : "data"}
     </section>
@@ -141,7 +164,7 @@ useEffect(() => {
   <section className="hidden sm:block sm:w-[35%] flex-1 mt-26 mr-8">
     {data.length > 0
       ? data.map((video) => (
-          <VideoCard key={video.id} val={video} />
+          <VideoCard key={video.id} val={video} channelImage={channelImages ? channelImages[video.snippet.channelId]:""}/>
         ))
       : "data"}
   </section>

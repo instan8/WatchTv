@@ -18,7 +18,8 @@ const SearchBox = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/suggestions?q=${encodeURIComponent(searchTerm)}`
+          `https://suggestionserver.onrender.com/api/suggestions?q=${encodeURIComponent(searchTerm)}`
+
       );
       const data = await res.json();
    console.log(data,"searchdata");

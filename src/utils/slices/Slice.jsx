@@ -1,7 +1,7 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
-
+const key = import.meta.env.VITE_API_KEY;
 export const fetchList=createAsyncThunk('fetchList',async (nextPageToken="")=>{
-    let url="https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&regionCode=IN&maxResults=10&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc";
+    let url=`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&regionCode=IN&maxResults=21&key=${key}`;
     if (nextPageToken) {
       url += `&pageToken=${nextPageToken}`; // append token for next page
     }

@@ -2,6 +2,7 @@ import React ,{useEffect,useState} from 'react'
 import { formatCompactNumber } from '../utils/viewsCount';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+const key = import.meta.env.VITE_API_KEY;
 function profile({ val }) {
     const [channelImage, setChannelImage] = useState(null);
     const [subscribeCount,setSubscribeCount] = useState(null);
@@ -15,7 +16,7 @@ function profile({ val }) {
     useEffect(
         ()=>{
             const fetchChannelImage = async(channelId)=>{
-                const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`);
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${key}`);
                 const data = await response.json();
                 setChannelImage(data.items[0].snippet.thumbnails.default.url);
                 setSubscribeCount(data.items[0].statistics.subscriberCount);
@@ -41,11 +42,17 @@ function profile({ val }) {
     fontSize: { xs: 24, sm: 32, md: 40 },
 marginRight:"10px",
     color:isLiked?"red":"white"}
- } onClick={()=>{console.log("Hello") ;setIsLiked(!isLiked)}} className='cursor-pointer '></ThumbUpIcon>
+ } onClick={()=>{console.log("Hello") ; 
+    if(!isDisliked){
+    setIsLiked(!isLiked)
+
+ }}} className='cursor-pointer '></ThumbUpIcon>
  <span className='text-white  text-lg mr-4'>{formatCompactNumber(val?.statistics?.likeCount || 0)}</span> 
  <ThumbDownAltIcon sx={{
     fontSize: { xs: 24, sm: 32, md: 40 },
- color:isDisliked?"red":"white"} } className="cursor-pointer"  onClick={()=>{setIsDisliked(!isDisliked)}} ></ThumbDownAltIcon>
+ color:isDisliked?"red":"white"} } className="cursor-pointer"  onClick={()=>
+ { if(!isLiked){
+    setIsDisliked(!isDisliked)}}} ></ThumbDownAltIcon>
  </div>
 
            

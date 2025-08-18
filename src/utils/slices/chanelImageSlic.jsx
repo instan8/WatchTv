@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk, isPending, isFulfilled} from '@reduxjs/toolkit';
-
+const key = import.meta.env.VITE_API_KEY;
 export const fetchChannelImage=createAsyncThunk("fetchChannelImage",
     async (ids)=>{
  console.log("channelimageworking")
@@ -9,7 +9,7 @@ export const fetchChannelImage=createAsyncThunk("fetchChannelImage",
 
     
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ids.join(",")}&key=AIzaSyB8RcykCgS5K8xAoDeFJ_2gAwFmxlvMoYc`
+        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ids.join(",")}&key=${key}`
       );
       const val = await response.json();
       console.log(val, "val in fetchChannelImage");
