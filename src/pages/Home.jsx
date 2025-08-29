@@ -4,8 +4,10 @@ import { fetchList } from '../utils/slices/Slice';
 import { fetchChannelImage } from '../utils/slices/chanelImageSlic';
 import VideoCard from '../components/videoCard';
 import VirtualizedList from '../components/virtulizelist';
+import { toggleSuggestionBox } from '../utils/slices/suggestionbox';
 export default function Home() {
   const dispatch = useDispatch();
+  
   const containerRef = useRef(null);
   const isLoadingRef = useRef(false); // Ref to track loading state
   const nextPageTokenRef = useRef(null); // ADD THIS - you're missing this ref!
@@ -134,7 +136,7 @@ export default function Home() {
   }
   
   return (
-    <div className="overflow-y-auto p-4  bg-black" ref={containerRef}>
+    <div className="overflow-y-auto p-4  bg-black" ref={containerRef} onClick={()=>{dispatch(toggleSuggestionBox(false))}}> 
       
    
      <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 p-0 sm:p-16">

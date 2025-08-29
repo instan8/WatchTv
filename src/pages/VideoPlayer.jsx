@@ -8,9 +8,11 @@ import { fetchChannelImage } from '../utils/slices/chanelImageSlic'
 import VideoCard from '../components/videoCard'
 import CommentSection from '../components/CommentSection';
 import Profile from '../components/profile';
+import { toggleSuggestionBox } from '../utils/slices/suggestionbox';
 const key = import.meta.env.VITE_API_KEY;
 const VideoPage = () => {
   const dispatch = useDispatch();
+
   const {data,isLoading} =useSelector((store) => {
    
     return store.fetchRelatedVideo});
@@ -21,6 +23,7 @@ const VideoPage = () => {
   })
   console.log(channelImages,"channelImages in videoplayer")
   const [comments, setComments] = useState([]);
+  const {suggestion}=useSelector(store=>store.suggestionBox)
   const [videoIds,setVideoIds]=useState([]);
   const [nextPageToken, setNextPageToken] = useState(null);
   const [specificVideo, setSpecificVideo] = useState({});
@@ -142,7 +145,7 @@ useEffect(() => {
 
   return (
    
-   <div className=" flex w-full flex-col sm:flex-row gap-10 bg-black">
+   <div className=" flex w-full flex-col sm:flex-row gap-10 bg-black" onClick={()=>{dispatch(toggleSuggestionBox(false))}}>
   {/* LEFT SIDE - Video + Profile + Comments */}
   <div className="w-full sm:min-w-[60%] flex flex-col">
     <YouTubePlayer videoId={videoId} />

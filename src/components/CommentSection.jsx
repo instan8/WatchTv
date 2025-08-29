@@ -13,7 +13,7 @@ function CommentSection({comments}) {
             <img className='size-6 rounded-full' referrerpolicy="no-referrer" src={comment.snippet.topLevelComment.snippet.
 authorProfileImageUrl
 } alt="User profile image" />
-      <p className='text-sm'>{comment.snippet.topLevelComment.snippet.textDisplay}</p>
+      <p className='text-sm w-50 truncate '>{comment.snippet.topLevelComment.snippet.textDisplay}</p>
     
 
             </div>

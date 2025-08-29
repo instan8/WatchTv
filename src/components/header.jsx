@@ -6,11 +6,13 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchBar from './searchbar';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { toggleSuggestionBox } from '../utils/slices/suggestionbox';
 const Navbar = () => {
   const [navVisible, setNavVisible] = useState(false);
-
+const dispatch=useDispatch();
   return (
-    <div>
+    <div onClick={()=>{dispatch(toggleSuggestionBox(false))}}>
       <nav className='flex justify-between sm:gap-20 items-center bg-[#0d0d0d] text-sm sm:text-lg p-4 text-white'>
         {/* Left Section */}
         <Link to={"/"}>   

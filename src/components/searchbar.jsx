@@ -2,12 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import { Link } from 'react-router-dom';
 import { addSearchItems } from '../utils/slices/serchItems';
-
+import { useDispatch ,useSelector} from 'react-redux';
+import { toggleSuggestionBox } from '../utils/slices/suggestionbox';
 const SearchBox = () => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {suggestion}=useSelector(store=>store.suggestionBox)
 
   const fetchSuggestions = async (searchTerm) => {
     if (!searchTerm) {
@@ -45,6 +48,8 @@ const SearchBox = () => {
 
   const handleChange = (e) => {
     setQuery(e.target.value);
+    dispatch(toggleSuggestionBox(true))
+
     setShowDropdown(true);
   };
 
@@ -63,7 +68,7 @@ const SearchBox = () => {
         placeholder="Search YouTube..."
         className="w-full h-8 p-3 border border-gray-300 rounded-full  shadow-sm focus:outline-none"
       />
-      {showDropdown && query && (
+      {suggestion && showDropdown && query && (
         <ul className="absolute z-10 w-full  border mt-1 rounded-md shadow-lg max-h-60 overflow-y-auto flex flex-col ">
           {loading && (
             <li className="p-2 bg-amber-200 text-gray-500 text-sm">Loading...</li>
