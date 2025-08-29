@@ -1,4 +1,4 @@
-import{u as g,a as f,b as w,r as m,j as e,L as j,d as y,f as N,c as I}from"./index-BXjQsKIR.js";function k(){const p=g(),t=f(s=>s.fetchChannelImage.data);console.log(t,"chanelimage in searchpage");const{search:h}=w(),i=new URLSearchParams(h).get("q");console.log(i,"keyword");const[a,u]=m.useState(null);return console.log(a,"video in searchpage"),m.useEffect(()=>{(async()=>{const o=`https://www.googleapis.com/youtube/v3/search
+import{u as g,a as f,b as w,r as m,j as e,L as j,d as y,f as N,c as I}from"./index-oXYwrTSN.js";function k(){const p=g(),t=f(s=>s.fetchChannelImage.data);console.log(t,"chanelimage in searchpage");const{search:h}=w(),i=new URLSearchParams(h).get("q");console.log(i,"keyword");const[a,u]=m.useState(null);return console.log(a,"video in searchpage"),m.useEffect(()=>{(async()=>{const o=`https://www.googleapis.com/youtube/v3/search
 ?part=snippet
 &type=video
 &maxResults=10
